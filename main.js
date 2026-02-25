@@ -158,6 +158,26 @@ function sanitizeFilename(filename) {
   return `${name}_${Date.now()}${ext}`;
 }
 
+/**
+ * Generate a deterministic cache filename for a given URL and original name.
+ * Uses a simple hash of the URL to create a stable filename for caching purposes.
+ */
+function getCacheFilename(url, originalName) {
+  const ext = path.extname(originalName) || '';
+  // Simple hash function for the URL
+  let hash = 0;
+  for (let i = 0; i < url.length; i++) {
+    const char = url.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  // Use absolute value and convert to base36 for shorter string
+  const hashStr = Math.abs(hash).toString(36);
+  const sanitizedName = originalName.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 50);
+  const baseName = path.basename(sanitizedName, ext);
+  return `${baseName}_${hashStr}${ext}`;
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
@@ -641,8 +661,8 @@ app.whenReady().then(() => {
 
   ipcMain.on("start-drag", async (event, url, filename) => {
     try {
-      const cleanFilename = sanitizeFilename(filename);
-      const tempPath = path.join(TEMP_DIR, cleanFilename);
+      const cacheFilename = getCacheFilename(url, filename);
+      const tempPath = path.join(TEMP_DIR, cacheFilename);
       const iconPath = path.join(__dirname, "icon", "icon.png");
 
       if (!fs.existsSync(tempPath)) {

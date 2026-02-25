@@ -14,6 +14,7 @@ let allAssets = [];
 let filteredAssets = [];
 let displayedCount = 0;
 let currentCategory = 'animations';
+let currentSearchQuery = '';
 let isLoading = false;
 let isInitialLoad = true;
 let focusedIndex = -1;
@@ -1165,9 +1166,18 @@ function importData(e) {
     reader.onload = (event) => {
         try {
             const data = JSON.parse(event.target.result);
-            if (data.settings) settings = { ...DEFAULT_SETTINGS, ...data.settings };
-            if (data.favorites) favorites = new Set(data.favorites);
-            if (data.recentHistory) recentHistory = data.recentHistory;
+            // Validate and merge settings
+            if (data.settings && typeof data.settings === 'object' && !Array.isArray(data.settings)) {
+                settings = { ...DEFAULT_SETTINGS, ...data.settings };
+            }
+            // Validate favorites is an array before creating Set
+            if (Array.isArray(data.favorites)) {
+                favorites = new Set(data.favorites);
+            }
+            // Validate recentHistory is an array
+            if (Array.isArray(data.recentHistory)) {
+                recentHistory = data.recentHistory;
+            }
             saveSettings();
             saveFavorites();
             saveRecentHistory();
