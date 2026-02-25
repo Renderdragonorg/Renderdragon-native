@@ -5,21 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self' https://raw.githubusercontent.com; connect-src https://hamburger-api.powernplant101-c6b.workers.dev https://raw.githubusercontent.com">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self' https://raw.githubusercontent.com; connect-src https:">
     <title>RenderDragon Assets</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container" id="mainContainer">
-        <!-- MC Sounds Sidebar -->
         <aside class="mcsounds-sidebar" id="mcsoundsSidebar">
             <div class="sidebar-header">
                 <span class="sidebar-title">Categories</span>
                 <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" title="Collapse sidebar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m15 18-6-6 6-6"/>
+                        <path d="m15 18-6-6 6-6" />
                     </svg>
                 </button>
             </div>
@@ -27,146 +26,161 @@
                 <div class="tree-container" id="mcsoundsTree"></div>
             </div>
         </aside>
-
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Search Header -->
-        <div class="search-header">
-            <div class="search-box">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <input type="text" id="searchInput" placeholder="Search assets... (use !M for music, !S for sfx, etc.)"
-                    autofocus>
-                <button class="settings-btn" id="settingsBtn" title="Settings">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
-                        </path>
-                        <circle cx="12" cy="12" r="3"></circle>
+            <div class="search-header">
+                <div class="search-box">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
                     </svg>
-                </button>
-                <button class="close-btn" id="closeBtn" title="Close (Esc)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                    </svg>
-                </button>
+                    <input type="text" id="searchInput"
+                        placeholder="Search assets... (use !M for music, !S for sfx, etc.)" autofocus>
+                    <button class="settings-btn" id="selectBtn" title="Select Multiple">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2" />
+                            <path d="m9 12 2 2 4-4" />
+                        </svg>
+                    </button>
+                    <button class="settings-btn" id="settingsBtn" title="Settings">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                            </path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                    <button class="close-btn" id="closeBtn" title="Close (Esc)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="category-filters">
+                    <button class="filter-btn" data-category="favorites">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                        Favorites
+                    </button>
+                    <button class="filter-btn" data-category="recent">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        Recent
+                    </button>
+                    <div class="filter-divider"></div>
+                    <button class="filter-btn" data-category="all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+                            <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+                            <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+                            <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+                        </svg>
+                        All
+                    </button>
+                    <button class="filter-btn active" data-category="animations">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m22 8-6 4 6 4V8Z"></path>
+                            <rect width="14" height="12" x="2" y="6" rx="2" ry="2"></rect>
+                        </svg>
+                        Animations
+                    </button>
+                    <button class="filter-btn" data-category="fonts">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                            <line x1="9" x2="15" y1="20" y2="20"></line>
+                            <line x1="12" x2="12" y1="4" y2="20"></line>
+                        </svg>
+                        Fonts
+                    </button>
+                    <button class="filter-btn" data-category="images">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                            <circle cx="9" cy="9" r="2"></circle>
+                            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                        </svg>
+                        Images
+                    </button>
+                    <button class="filter-btn" data-category="mcicons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                            <path d="M7 7h.01"></path>
+                            <path d="M17 7h.01"></path>
+                            <path d="M7 17h.01"></path>
+                            <path d="M17 17h.01"></path>
+                        </svg>
+                        MC Icons
+                    </button>
+                    <button class="filter-btn" data-category="mcsounds">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        MC Sounds
+                    </button>
+                    <button class="filter-btn" data-category="music">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        Music
+                    </button>
+                    <button class="filter-btn" data-category="presets">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                            </path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        Presets
+                    </button>
+                    <button class="filter-btn" data-category="sfx">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        </svg>
+                        SFX
+                    </button>
+                </div>
             </div>
-
-            <!-- Category Filters -->
-            <div class="category-filters">
-                <button class="filter-btn" data-category="all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect width="7" height="7" x="3" y="3" rx="1"></rect>
-                        <rect width="7" height="7" x="14" y="3" rx="1"></rect>
-                        <rect width="7" height="7" x="14" y="14" rx="1"></rect>
-                        <rect width="7" height="7" x="3" y="14" rx="1"></rect>
-                    </svg>
-                    All
-                </button>
-                <button class="filter-btn active" data-category="animations">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m22 8-6 4 6 4V8Z"></path>
-                        <rect width="14" height="12" x="2" y="6" rx="2" ry="2"></rect>
-                    </svg>
-                    Animations
-                </button>
-                <button class="filter-btn" data-category="fonts">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
-                        <line x1="9" x2="15" y1="20" y2="20"></line>
-                        <line x1="12" x2="12" y1="4" y2="20"></line>
-                    </svg>
-                    Fonts
-                </button>
-                <button class="filter-btn" data-category="images">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
-                        <circle cx="9" cy="9" r="2"></circle>
-                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
-                    </svg>
-                    Images
-                </button>
-                <button class="filter-btn" data-category="mcicons">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-                        <path d="M7 7h.01"></path>
-                        <path d="M17 7h.01"></path>
-                        <path d="M7 17h.01"></path>
-                        <path d="M17 17h.01"></path>
-                    </svg>
-                    MC Icons
-                </button>
-                <button class="filter-btn" data-category="mcsounds">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18V5l12-2v13"></path>
-                        <circle cx="6" cy="18" r="3"></circle>
-                        <circle cx="18" cy="16" r="3"></circle>
-                    </svg>
-                    MC Sounds
-                </button>
-                <button class="filter-btn" data-category="music">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18V5l12-2v13"></path>
-                        <circle cx="6" cy="18" r="3"></circle>
-                        <circle cx="18" cy="16" r="3"></circle>
-                    </svg>
-                    Music
-                </button>
-                <button class="filter-btn" data-category="presets">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
-                        </path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    Presets
-                </button>
-                <button class="filter-btn" data-category="sfx">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-                    </svg>
-                    SFX
-                </button>
+            <div class="results-info">
+                <span id="resultsCount">Loading assets...</span>
             </div>
-        </div>
-
-        <!-- Results Info -->
-        <div class="results-info">
-            <span id="resultsCount">Loading assets...</span>
-        </div>
-
-        <!-- Assets Grid -->
-        <div class="assets-container" id="assetsContainer">
-            <div class="assets-grid" id="assetsGrid"></div>
-            <div class="loading-indicator" id="loadingIndicator">
-                <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-                </svg>
-                Loading more...
+            <div class="assets-container" id="assetsContainer">
+                <div class="assets-grid" id="assetsGrid"></div>
+                <div class="loading-indicator" id="loadingIndicator">
+                    <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                    </svg>
+                    Loading more...
+                </div>
             </div>
-        </div>
         </div>
     </div>
-
-    <!-- Settings Modal -->
     <div class="settings-modal" id="settingsModal">
         <div class="settings-panel">
             <div class="settings-header">
@@ -179,9 +193,7 @@
                     </svg>
                 </button>
             </div>
-
             <div class="settings-content">
-                <!-- Button Visibility Section -->
                 <div class="settings-section">
                     <h3>Tile Buttons</h3>
                     <p class="settings-description">Choose which buttons to show on asset tiles</p>
@@ -203,8 +215,6 @@
                         </label>
                     </div>
                 </div>
-
-                <!-- Default Category Section -->
                 <div class="settings-section">
                     <h3>Default Category</h3>
                     <p class="settings-description">Category to show when app starts</p>
@@ -220,8 +230,6 @@
                         <option value="sfx">SFX</option>
                     </select>
                 </div>
-
-                <!-- Grid Columns Section -->
                 <div class="settings-section">
                     <h3>Grid Columns</h3>
                     <p class="settings-description">Number of tiles per row</p>
@@ -230,16 +238,53 @@
                         <span id="gridColumnsValue" class="slider-value">Auto</span>
                     </div>
                 </div>
-
-                <!-- Keybind Configuration Section -->
+                <div class="settings-section">
+                    <h3>Window</h3>
+                    <p class="settings-description">Control window behavior and visibility</p>
+                    <div class="settings-checkboxes">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="alwaysOnTop" checked>
+                            <span class="checkbox-custom"></span>
+                            Always on Top
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pinned">
+                            <span class="checkbox-custom"></span>
+                            Pin Window (Keep open on blur)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoplayPreviews">
+                            <span class="checkbox-custom"></span>
+                            Live Previews (Autoplay)
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Watch Folder</h3>
+                    <p class="settings-description">Automatically copy downloaded assets to this folder</p>
+                    <input type="text" id="watchFolderInput" class="settings-input"
+                        placeholder="Path to folder (e.g. C:\Assets)">
+                </div>
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <p class="settings-description">Export or import your favorites and settings</p>
+                    <div class="settings-buttons">
+                        <button class="settings-action-btn" id="exportBtn">Export Data</button>
+                        <button class="settings-action-btn" id="importBtn">Import Data</button>
+                        <input type="file" id="importFile" style="display: none;" accept=".json">
+                    </div>
+                </div>
                 <div class="settings-section">
                     <h3>Global Shortcut</h3>
                     <p class="settings-description">Keyboard shortcut to show/hide the app</p>
                     <div class="keybind-container">
                         <div class="keybind-input-wrapper">
-                            <input type="text" id="keybindInput" class="keybind-input" readonly placeholder="Click to record...">
+                            <input type="text" id="keybindInput" class="keybind-input" readonly
+                                placeholder="Click to record...">
                             <button class="keybind-record-btn" id="keybindRecordBtn" title="Record new shortcut">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <circle cx="12" cy="12" r="4" fill="currentColor"></circle>
                                 </svg>
@@ -249,8 +294,6 @@
                     </div>
                     <p class="keybind-hint" id="keybindHint"></p>
                 </div>
-
-                <!-- About Section -->
                 <div class="settings-section">
                     <h3>About</h3>
                     <div class="about-info">
@@ -259,33 +302,48 @@
                             <span class="about-value" id="appVersion">-</span>
                         </div>
                         <button class="check-update-btn" id="checkUpdateBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                                <path d="M3 3v5h5"/>
-                                <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
-                                <path d="M16 16h5v5"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                <path d="M3 3v5h5" />
+                                <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+                                <path d="M16 16h5v5" />
                             </svg>
                             Check for Updates
                         </button>
                     </div>
                 </div>
             </div>
-
             <div class="settings-footer">
                 <button class="settings-save-btn" id="settingsSaveBtn">Save Settings</button>
             </div>
         </div>
     </div>
-
-    <!-- Go to Top Button -->
+    <div class="batch-bar" id="batchBar">
+        <div class="batch-info">
+            <span id="selectedCount">0</span> assets selected
+        </div>
+        <div class="batch-actions">
+            <button class="batch-btn" id="batchCancelBtn">Cancel</button>
+            <button class="batch-btn primary" id="batchDownloadBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" x2="12" y1="15" y2="3" />
+                </svg>
+                Download Selected (ZIP)
+            </button>
+        </div>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
     <button class="go-top-btn" id="goTopBtn" title="Go to top">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m18 15-6-6-6 6"></path>
         </svg>
     </button>
-
-    <!-- Preview Modal -->
     <div class="preview-modal" id="previewModal">
         <div class="preview-content" id="previewContent"></div>
         <button class="preview-close" id="previewClose">
@@ -296,19 +354,18 @@
             </svg>
         </button>
     </div>
-
-    <!-- Update Modal -->
     <div class="update-modal" id="updateModal">
         <div class="update-panel">
             <div class="update-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                    <path d="M3 3v5h5"/>
-                    <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
-                    <path d="M16 16h5v5"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                    <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+                    <path d="M16 16h5v5" />
                 </svg>
                 <h2>Update Available</h2>
-            </div>
+</div>
             <div class="update-content" id="updateContent">
                 <div class="update-version-info">
                     <span class="update-label">New Version:</span>
@@ -325,11 +382,12 @@
             <div class="update-actions">
                 <button class="update-btn update-btn-secondary" id="updateLaterBtn">Later</button>
                 <button class="update-btn update-btn-primary" id="updateDownloadBtn">Download</button>
-                <button class="update-btn update-btn-primary" id="updateInstallBtn" style="display: none;">Restart & Install</button>
+                <button class="update-btn update-btn-primary" id="updateInstallBtn" style="display: none;">Restart &
+                    Install</button>
             </div>
         </div>
     </div>
-
+    <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="app.js"></script>
 </body>
 

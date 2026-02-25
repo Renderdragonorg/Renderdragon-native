@@ -18,6 +18,7 @@ const { autoUpdater } = require("electron-updater");
 
 let mainWindow = null;
 let tray = null;
+let isPinned = false;
 let isVisible = false;
 let currentShortcut = null;
 let updateInfo = null;
@@ -163,7 +164,7 @@ function createWindow() {
     height: 600,
     frame: false,
     transparent: true,
-    resizable: false,
+    resizable: true,
     skipTaskbar: true,
     alwaysOnTop: true,
     show: false,
@@ -175,11 +176,17 @@ function createWindow() {
     },
   });
 
+  mainWindow.setAlwaysOnTop(true, 'pop-up-menu');
+  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+
   mainWindow.loadFile(path.join(__dirname, "renderer", "index.html"));
 
-  // Hide when loses focus
+  // Hide when loses focus (unless pinned)
   mainWindow.on("blur", () => {
-    hideWindow();
+    console.log(`Window blurred. isPinned: ${isPinned}, isAlwaysOnTop: ${mainWindow.isAlwaysOnTop()}`);
+    if (!isPinned) {
+      hideWindow();
+    }
   });
 
   // Prevent window from being destroyed on close - hide to tray instead
@@ -195,6 +202,7 @@ function createWindow() {
 }
 
 function showWindow() {
+  console.log("main.js: showWindow() called");
   if (mainWindow) {
     mainWindow.center();
     mainWindow.show();
@@ -206,6 +214,7 @@ function showWindow() {
 }
 
 function hideWindow() {
+  console.log("main.js: hideWindow() called");
   if (mainWindow) {
     mainWindow.hide();
     mainWindow.webContents.send("window-hidden");
@@ -564,6 +573,22 @@ app.whenReady().then(() => {
   }
 
   // IPC handlers
+  ipcMain.handle("set-always-on-top", (event, value) => {
+    if (mainWindow) {
+      console.log(`Setting always-on-top to ${value}`);
+      mainWindow.setAlwaysOnTop(value, 'pop-up-menu');
+      mainWindow.setVisibleOnAllWorkspaces(value, { visibleOnFullScreen: true });
+      return { success: true };
+    }
+    return { success: false };
+  });
+
+  ipcMain.handle("set-pinned", (event, value) => {
+    console.log(`Setting isPinned to ${value}`);
+    isPinned = value;
+    return { success: true };
+  });
+
   ipcMain.handle("hide-window", () => {
     hideWindow();
   });
@@ -608,6 +633,23 @@ app.whenReady().then(() => {
       return await copyFileToClipboard(tempPath);
     } catch (error) {
       return { success: false, message: error.message };
+    }
+  });
+
+  ipcMain.on("start-drag", async (event, url, filename) => {
+    try {
+      const cleanFilename = sanitizeFilename(filename);
+      const tempPath = path.join(TEMP_DIR, cleanFilename);
+      const iconPath = path.join(__dirname, "icon", "icon.png");
+
+      await downloadToFile(url, tempPath);
+
+      event.sender.startDrag({
+        file: tempPath,
+        icon: iconPath,
+      });
+    } catch (err) {
+      console.error("Drag error:", err);
     }
   });
 
