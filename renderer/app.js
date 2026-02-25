@@ -453,7 +453,7 @@ function toggleBatchMode() {
     selectBtn.classList.toggle('active', isBatchMode);
     if (!isBatchMode) {
         selectedAssets.clear();
-        document.querySelectorAll('.asset-tile.selected').forEach(t => t.classList.remove('selected'));
+        document.querySelectorAll('.asset-tile.selected').forEach(t => { t.classList.remove('selected'); });
         batchBar.classList.remove('active');
     } else {
         updateBatchStatus();
@@ -462,11 +462,38 @@ function toggleBatchMode() {
 async function handleBatchDownload() {
     const assetsToDownload = allAssets.filter(a => selectedAssets.has(a.id));
     if (assetsToDownload.length === 0) return;
-    showToast(`Preparing download for ${assetsToDownload.length} assets...`, 'info');
-    for (const asset of assetsToDownload) {
-        await downloadAsset(asset);
+    showToast(`Preparing ZIP with ${assetsToDownload.length} assets...`, 'info');
+    try {
+        const zip = new JSZip();
+        let completed = 0;
+        for (const asset of assetsToDownload) {
+            try {
+                const response = await fetch(asset.url);
+                const blob = await response.blob();
+                const filename = asset.filename || `${asset.title}.${asset.ext}`;
+                zip.file(filename, blob);
+                completed++;
+            } catch (err) {
+                console.error(`Failed to fetch ${asset.title}:`, err);
+            }
+        }
+        if (completed === 0) {
+            showToast('Failed to download any assets', 'error');
+            return;
+        }
+        const content = await zip.generateAsync({ type: 'blob' });
+        const url = URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `renderdragon_assets_${new Date().toISOString().slice(0, 10)}.zip`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(`Downloaded ZIP with ${completed} assets`, 'success');
+        toggleBatchMode();
+    } catch (error) {
+        console.error('Batch download error:', error);
+        showToast('Failed to create ZIP file', 'error');
     }
-    toggleBatchMode();
 }
 function getPreviewHtml(asset) {
     const ext = asset.ext.toLowerCase();

@@ -586,9 +586,6 @@ app.whenReady().then(() => {
   ipcMain.handle("set-pinned", (event, value) => {
     console.log(`Setting isPinned to ${value}`);
     isPinned = value;
-    if (mainWindow) {
-      mainWindow.setVisibleOnAllWorkspaces(value, { visibleOnFullScreen: true });
-    }
     return { success: true };
   });
 

@@ -407,7 +407,10 @@ body {
     z-index: 10;
 }
 
-.asset-tile:hover .action-btn.favorite-btn {
+.asset-tile:hover .action-btn.favorite-btn,
+.action-btn.favorite-btn:focus,
+.action-btn.favorite-btn:focus-visible,
+.asset-tile:focus-within .action-btn.favorite-btn {
     opacity: 1;
 }
 
