@@ -24,7 +24,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Thebestharrison1221/Renderdragon-native-Harrison.git"
+        "url": "https://github.com/Renderdragonorg/Renderdragon-native.git"
     },
     "devDependencies": {
         "electron": "^28.0.0",
@@ -42,8 +42,8 @@
         ],
         "publish": {
             "provider": "github",
-            "owner": "Thebestharrison1221",
-            "repo": "Renderdragon-native-Harrison"
+            "owner": "Renderdragonorg",
+            "repo": "Renderdragon-native"
         },
         "mac": {
             "target": [

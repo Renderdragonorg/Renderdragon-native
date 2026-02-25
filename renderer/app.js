@@ -14,6 +14,7 @@ let allAssets = [];
 let filteredAssets = [];
 let displayedCount = 0;
 let currentCategory = 'animations';
+let currentSearchQuery = '';
 let isLoading = false;
 let isInitialLoad = true;
 let focusedIndex = -1;
@@ -315,6 +316,8 @@ function createAssetTile(asset) {
     const previewHtml = getPreviewHtml(asset);
     const sizeText = formatSize(asset.size);
     const isFavorite = favorites.has(asset.id);
+    const isSelected = selectedAssets.has(asset.id);
+    const highlightedTitle = highlightText(asset.title, currentSearchQuery);
     let buttonsHtml = '';
     buttonsHtml += `
       <button class="action-btn favorite-btn ${isFavorite ? 'active' : ''}" title="Favorite">
@@ -350,10 +353,8 @@ function createAssetTile(asset) {
         </svg>
       </button>`;
     }
-    const hasButtons = settings.showPreviewBtn || settings.showCopyBtn || settings.showDownloadBtn;
+    const hasButtons = buttonsHtml.length > 0;
     const actionsHtml = hasButtons ? `<div class="asset-actions">${buttonsHtml}</div>` : '';
-    const highlightedTitle = highlightText(asset.title, currentSearchQuery);
-    const isSelected = selectedAssets.has(asset.id);
     tile.innerHTML = `
     <div class="asset-checkbox">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
@@ -375,24 +376,30 @@ function createAssetTile(asset) {
     if (isSelected) tile.classList.add('selected');
     if (settings.showPreviewBtn) {
         const previewBtn = tile.querySelector('.preview-btn');
-        previewBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showPreview(asset);
-        });
+        if (previewBtn) {
+            previewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showPreview(asset);
+            });
+        }
     }
     if (settings.showCopyBtn) {
         const copyBtn = tile.querySelector('.copy-btn');
-        copyBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            copyAsset(asset);
-        });
+        if (copyBtn) {
+            copyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                copyAsset(asset);
+            });
+        }
     }
     if (settings.showDownloadBtn) {
         const downloadBtn = tile.querySelector('.download-btn');
-        downloadBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            downloadAsset(asset);
-        });
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                downloadAsset(asset);
+            });
+        }
     }
     const favoriteBtn = tile.querySelector('.favorite-btn');
     if (favoriteBtn) {
@@ -410,8 +417,12 @@ function createAssetTile(asset) {
             e.preventDefault();
             return;
         }
+        tile.classList.add('dragging');
         e.preventDefault();
         window.api.startDrag(asset.url, asset.filename);
+    });
+    tile.addEventListener('dragend', () => {
+        tile.classList.remove('dragging');
     });
     return tile;
 }
@@ -1084,10 +1095,10 @@ function updateSelection() {
     for (let i = 0; i < tiles.length; i++) {
         const tile = tiles[i];
         if (i === focusedIndex) {
-            tile.classList.add('selected');
+            tile.classList.add('focused');
             tile.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         } else {
-            tile.classList.remove('selected');
+            tile.classList.remove('focused');
         }
     }
 }
@@ -1165,9 +1176,15 @@ function importData(e) {
     reader.onload = (event) => {
         try {
             const data = JSON.parse(event.target.result);
-            if (data.settings) settings = { ...DEFAULT_SETTINGS, ...data.settings };
-            if (data.favorites) favorites = new Set(data.favorites);
-            if (data.recentHistory) recentHistory = data.recentHistory;
+            if (data.settings && typeof data.settings === 'object' && !Array.isArray(data.settings)) {
+                settings = { ...DEFAULT_SETTINGS, ...data.settings };
+            }
+            if (Array.isArray(data.favorites)) {
+                favorites = new Set(data.favorites);
+            }
+            if (Array.isArray(data.recentHistory)) {
+                recentHistory = data.recentHistory;
+            }
             saveSettings();
             saveFavorites();
             saveRecentHistory();

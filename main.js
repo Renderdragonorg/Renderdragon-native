@@ -645,9 +645,7 @@ app.whenReady().then(() => {
       const tempPath = path.join(TEMP_DIR, cleanFilename);
       const iconPath = path.join(__dirname, "icon", "icon.png");
 
-      if (!fs.existsSync(tempPath)) {
-        await downloadToFile(url, tempPath);
-      }
+      await downloadToFile(url, tempPath);
 
       event.sender.startDrag({
         file: tempPath,
